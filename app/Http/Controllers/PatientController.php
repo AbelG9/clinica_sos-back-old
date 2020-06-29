@@ -36,12 +36,36 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+
+    }
+
+    public function savePatient(Request $request)
+    {
+        $FullPatient = new Patient;
+        $FullPatient->pac_document = $request->params['dnipac'];
+        $FullPatient->pac_name = $request->params['nompac'];
+        $FullPatient->pac_lastname = $request->params['apelpac'];
+        $FullPatient->pac_address = $request->params['dirpac'];
+        $FullPatient->pac_fech_nac = $request->params['fnpac'];
+        $FullPatient->pac_sex = $request->params['sexpac'];
+        $FullPatient->pac_phone = $request->params['telpac'];
+        $FullPatient->pac_email = $request->params['mailpac'];
+        $FullPatient->pac_estado = 1;
+        $FullPatient->save();
+        
+        return $FullPatient->id_paciente;
+        // return $request->params['nompac'];
     }
 
     public function getPatient(Request $request) {
-        $patient = Patient::where('pac_document',$request->dni)->count();
+        $patient = Patient::where('pac_document',$request->dataDni)->count();
         return $patient;
+    }
+
+    public function getDataPatient(Request $request) {
+        $datapatient = Patient::where('pac_document',$request->dataDni)->select('pac_name','pac_lastname')->get();
+        return $datapatient;
     }
 
     /**

@@ -19,3 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/patientList', 'PatientController@index');
 Route::post('/getPatient', 'PatientController@getPatient');
+Route::post('/getDataPatient', 'PatientController@getDataPatient');
+Route::post('/savePatient', 'PatientController@savePatient');
