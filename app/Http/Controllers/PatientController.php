@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Model\Patient;
+use App\Model\Patient_especiality;
+use App\Model\Pes_tool;
 use Illuminate\Http\Request;
 
 class PatientController extends Controller
@@ -53,9 +55,21 @@ class PatientController extends Controller
         $FullPatient->pac_email = $request->params['mailpac'];
         $FullPatient->pac_estado = 1;
         $FullPatient->save();
+
+        $fichaPatient = new Patient_especiality;
+        $fichaPatient->id_paciente = $FullPatient->id_paciente;
+        $fichaPatient->id_especialidad = 1;
+        $fichaPatient->pes_estado = 'abierto';
+        $fichaPatient->save();
+
+        $pesOdontologia = new Pes_tool;
+        $pesOdontologia->odto_odon_estado = 'abierto';
+        $pesOdontologia->odto_trat_estado = 'abierto';
+        $pesOdontologia->odto_hmd_estado = 'abierto';
+        $pesOdontologia->id_paciente_especialidad = $fichaPatient->id_paciente_especialidad;
+        $pesOdontologia->save();
         
         return $FullPatient->id_paciente;
-        // return $request->params['nompac'];
     }
 
     public function getPatient(Request $request) {
