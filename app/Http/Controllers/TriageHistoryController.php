@@ -53,7 +53,7 @@ class TriageHistoryController extends Controller
             return $diasDiferencia;
         }
         else{
-            return 0;
+            return 14;
         }
     }
 
