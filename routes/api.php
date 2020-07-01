@@ -24,3 +24,4 @@ Route::post('/savePatient', 'PatientController@savePatient');
 Route::get('/getPestool', 'Pes_tollController@index');
 Route::post('/saveTriage', 'TriageController@saveTriage');
 Route::post('/saveTriageHistory', 'TriageHistoryController@saveTriageHistory');
+Route::post('/getlasttriage', 'TriageHistoryController@getlasttriage');

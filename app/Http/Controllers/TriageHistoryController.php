@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Carbon\Carbon;
 use App\Model\TriageHistory;
 use App\Model\Triage;
 use Illuminate\Http\Request;
@@ -27,23 +27,34 @@ class TriageHistoryController extends Controller
 
         if(count($NumTriage) > 0) {
             $TopTriage = Triage::find($NumTriage[0]->idtriaje);
-            $TopTriage->fech_update='2020-07-30';
+            $TopTriage->fech_update=Carbon::now()->format('Y-m-d');
             $TopTriage->triaje_historial_idtriaje_historial = $FullTriage->idtriaje_historial;
             $TopTriage->paciente_id_paciente = $request->stateOption['usuario'];
             $TopTriage->save();
         } else {
             $TopTriage = new Triage;
-            $TopTriage->fech_update='2020-06-30';
+            $TopTriage->fech_update=Carbon::now()->format('Y-m-d');
             $TopTriage->triaje_historial_idtriaje_historial = $FullTriage->idtriaje_historial;
             $TopTriage->paciente_id_paciente = $request->stateOption['usuario'];
             $TopTriage->save();
         }
-
-        //return $NumTriage[0]->idtriaje;
-        //return count($NumTriage);
-
+      
         return $FullTriage->idtriaje_historial;
     }
 
-    
+    public function getlasttriage(Request $request) {
+        $DateTriage = Triage::where('paciente_id_paciente', $request->responseid)->select('fech_update')->get();
+        if (count($DateTriage) > 0) {
+            $LastTriage = $DateTriage[0]->fech_update;
+            $TodayDate = Carbon::now();
+            $FDate=Carbon::parse($LastTriage);
+            $LDate=Carbon::parse($TodayDate);
+            $diasDiferencia = $FDate->diffInDays($LDate);
+            return $diasDiferencia;
+        }
+        else{
+            return 0;
+        }
+    }
+
 }
