@@ -22,3 +22,5 @@ Route::post('/getPatient', 'PatientController@getPatient');
 Route::post('/getDataPatient', 'PatientController@getDataPatient');
 Route::post('/savePatient', 'PatientController@savePatient');
 Route::get('/getPestool', 'Pes_tollController@index');
+Route::post('/saveTriage', 'TriageController@saveTriage');
+Route::post('/saveTriageHistory', 'TriageHistoryController@saveTriageHistory');

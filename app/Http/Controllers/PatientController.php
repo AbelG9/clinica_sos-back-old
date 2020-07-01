@@ -73,7 +73,7 @@ class PatientController extends Controller
     }
 
     public function getPatient(Request $request) {
-        $patient = Patient::where('pac_document',$request->dataDni)->count();
+        $patient = Patient::where('pac_document',$request->dataDni)->select('id_paciente')->get();
         return $patient;
     }
 
