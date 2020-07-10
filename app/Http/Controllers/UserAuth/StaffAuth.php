@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Http\Controllers\UserAuth;
+
+use App\StaffUser;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+class StaffAuth extends Controller
+{
+    public function register(Request $request)
+    {
+        $user = new StaffUser;
+        $user->full_name = $request->fullname;
+        $user->username = $request->username;
+        $user->password = bcrypt($request->password);
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->alias = $request->alias;
+        $user->status = 1;
+        $user->role_user_id = 1;
+        $user->save();
+
+        $accessToken = $user->createToken('authToken')->accessToken;
+
+        return response()->json([
+            'user' => $user,
+            'access_token' => $accessToken
+        ]);
+    }
+
+    public function login(Request $request)
+    {
+        $user = StaffUser::where("username", $request->username)->first();
+        if(!isset($user)){
+            return "Staff Not found";
+        }
+
+        if (!Hash::check($request->password, $user->password)) {
+            return "Incorrect password";
+        }
+
+        $tokenResult = $user->createToken('authToken');
+        $user->access_token = $tokenResult->accessToken;
+        $user->token_type = 'Bearer';
+        return $user;
+    }
+
+    public function logout()
+    {
+        if (Auth::guard('customers')->user()) {
+            $user = Auth::user()->token();
+            $user->revoke();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Logout successfully'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unable to Logout'
+            ]);
+        }
+    }
+}
