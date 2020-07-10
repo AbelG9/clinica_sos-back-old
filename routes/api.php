@@ -3,7 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/patientList', 'PatientController@index');
 Route::post('/getPatient', 'PatientController@getPatient');
 Route::post('/getDataPatient', 'PatientController@getDataPatient');
 Route::post('/savePatient', 'PatientController@savePatient');
@@ -15,4 +14,8 @@ Route::post('/getlasttriage', 'TriageHistoryController@getlasttriage');
 Route::prefix('staff')->group(function () {
     Route::post('/login', 'UserAuth\StaffAuth@login');
     Route::post('/register', 'UserAuth\StaffAuth@register');
+});
+
+Route::middleware('auth:staffuser')->prefix('staff')->group(function () {
+    Route::get('/patientList', 'PatientController@index');
 });
