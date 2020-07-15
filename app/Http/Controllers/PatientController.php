@@ -16,7 +16,11 @@ class PatientController extends Controller
      */
     public function index()
     {
-        $patient = Patient::paginate(10);
+        // $patient = Patient::orderBy('id_paciente', 'desc')->paginate(10);
+        $patient = Patient::leftJoin('triaje', 'paciente_id_paciente', '=','paciente.id_paciente')
+            ->select('paciente.*' ,'triaje.fech_update')
+            ->orderBy('id_paciente', 'desc')
+            ->paginate(10);
         return $patient;
     }
 

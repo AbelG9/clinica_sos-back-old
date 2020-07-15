@@ -18,4 +18,5 @@ Route::prefix('staff')->group(function () {
 
 Route::middleware('auth:staffuser')->prefix('staff')->group(function () {
     Route::get('/patientList', 'PatientController@index');
+    Route::post('/logout', 'UserAuth\StaffAuth@logout');
 });

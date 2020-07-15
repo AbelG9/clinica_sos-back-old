@@ -34,24 +34,35 @@ class StaffAuth extends Controller
 
     public function login(Request $request)
     {
-        $user = StaffUser::where("username", $request->username)->first();
+        // request->stateOption['option1']
+        $user = StaffUser::where("username", $request->credentials['user'])->first();
         if(!isset($user)){
-            return "Staff Not found";
+            return response()->json([
+                'success' => false,
+                'message' => 'Staff Not found'
+            ]);
         }
 
-        if (!Hash::check($request->password, $user->password)) {
-            return "Incorrect password";
+        if (!Hash::check($request->credentials['pass'], $user->password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Incorrect password'
+            ]);
         }
 
         $tokenResult = $user->createToken('authToken');
         $user->access_token = $tokenResult->accessToken;
         $user->token_type = 'Bearer';
-        return $user;
+        return response()->json([
+            'success' => true,
+            'user' => $user,
+            'message' => 'Login successfully'
+        ]);
     }
 
     public function logout()
     {
-        if (Auth::guard('customers')->user()) {
+        if (Auth::guard('staffuser')->user()) {
             $user = Auth::user()->token();
             $user->revoke();
 
