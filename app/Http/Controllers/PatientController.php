@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Model\Patient;
-use App\Model\Patient_especiality;
 use App\Model\Pes_tool;
 use Illuminate\Http\Request;
+use App\Model\Patient_especiality;
+use Illuminate\Support\Facades\DB;
 
 class PatientController extends Controller
 {
@@ -14,11 +15,12 @@ class PatientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getFilterPatient(Request $request)
     {
-        // $patient = Patient::orderBy('id_paciente', 'desc')->paginate(10);
+        $search='%'.$request->search.'%';
         $patient = Patient::leftJoin('triaje', 'paciente_id_paciente', '=','paciente.id_paciente')
             ->select('paciente.*' ,'triaje.fech_update')
+            ->where('paciente.pac_name', 'like', $search)
             ->orderBy('id_paciente', 'desc')
             ->paginate(10);
         return $patient;
