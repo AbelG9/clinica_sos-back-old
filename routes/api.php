@@ -26,3 +26,11 @@ Route::middleware('auth:staffuser')->prefix('staff')->group(function () {
     Route::post('/patientList', 'PatientController@getFilterPatient');
     Route::post('/logout', 'UserAuth\StaffAuth@logout');
 });
+
+Route::prefix('citas'->group(function () {
+    Route::post('/saveCitaOnline', 'CitasController@saveCitaOnline');
+}));
+
+Route::middleware('auth:staffuser')->prefix('staff')->group(function () {
+    Route::get('/patientList', 'PatientController@index');
+});
