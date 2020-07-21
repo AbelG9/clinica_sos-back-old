@@ -11,6 +11,12 @@ Route::post('/saveTriage', 'TriageController@saveTriage');
 Route::post('/saveTriageHistory', 'TriageHistoryController@saveTriageHistory');
 Route::post('/getlasttriage', 'TriageHistoryController@getlasttriage');
 
+Route::prefix('paciente')->group(function () {
+    Route::post('/login', 'UserAuth\PatientAuth@login');
+    Route::post('/register', 'UserAuth\PatientAuth@register');
+    Route::post('/checkPatient', 'UserAuth\PatientAuth@checkUser');
+});
+
 Route::prefix('staff')->group(function () {
     Route::post('/login', 'UserAuth\StaffAuth@login');
     Route::post('/register', 'UserAuth\StaffAuth@register');

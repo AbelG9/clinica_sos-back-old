@@ -52,6 +52,12 @@ return [
             'provider' => 'staffusers',
             'hash' => false,
         ],
+
+        'patientuser' => [
+            'driver' => 'passport',
+            'provider' => 'patientusers',
+            'hash' => false,
+        ],
     ],
 
     /*
@@ -80,6 +86,11 @@ return [
         'staffusers' => [
             'driver' => 'eloquent',
             'model' => App\StaffUser::class,
+        ],
+
+        'patientusers' => [
+            'driver' => 'eloquent',
+            'model' => App\PatientUser::class,
         ],
 
         // 'users' => [
