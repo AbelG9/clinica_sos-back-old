@@ -25,19 +25,16 @@ Route::get('/getPestool', 'Pes_tollController@index');
 Route::post('/saveTriage', 'TriageController@saveTriage');
 Route::post('/saveTriageHistory', 'TriageHistoryController@saveTriageHistory');
 Route::post('/getlasttriage', 'TriageHistoryController@getlasttriage');
-<<<<<<< Updated upstream
-=======
 
 Route::prefix('staff')->group(function () {
     Route::post('/login', 'UserAuth\StaffAuth@login');
     Route::post('/register', 'UserAuth\StaffAuth@register');
 });
 
-Route::prefix('citas'->group(function () {
+Route::prefix('citas')->group(function () {
     Route::post('/saveCitaOnline', 'CitasController@saveCitaOnline');
-}));
+});
 
 Route::middleware('auth:staffuser')->prefix('staff')->group(function () {
     Route::get('/patientList', 'PatientController@index');
 });
->>>>>>> Stashed changes
