@@ -65,4 +65,29 @@ class PatientController extends Controller
         $datapatient = Patient::where('pac_document',$request->dataDni)->select('pac_name','pac_lastname')->get();
         return $datapatient;
     }
+
+    public function getdataUserPatient(Request $request){
+        $datapatient = Patient::where('id_paciente', '=', $request->datospaciente['id_paciente'])
+            ->select('id_paciente', 'pac_document', 'pac_name', 'pac_lastname', 'pac_address', 'pac_fech_nac', 'pac_sex', 'pac_phone', 'pac_email')
+            ->get();
+        return response()->json([
+            'success' => true,
+            'datapatient' => $datapatient,
+            'message' => 'Proccess successfully'
+        ]);
+    }
+
+    public function updateUserPatient(Request $request) {
+        $patient = Patient::find($request->datospaciente['id_paciente']);
+        $patient->pac_name = $request->datospaciente['pac_name'];
+        $patient->pac_lastname = $request->datospaciente['pac_lastname'];
+        $patient->pac_address = $request->datospaciente['pac_address'];
+        $patient->pac_phone = $request->datospaciente['pac_phone'];
+        $patient->save();
+        return response()->json([
+            'success' => true,
+            'patient' => $patient->pac_name,
+            'message' => 'Proccess successfully'
+        ]);
+    }
 }
