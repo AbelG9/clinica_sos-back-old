@@ -29,6 +29,8 @@ Route::middleware('auth:staffuser')->prefix('staff')->group(function () {
 
 Route::prefix('citas')->group(function () {
     Route::post('/saveCitaOnline', 'CitasController@saveCitaOnline');
+    Route::post('/getCitas', 'CitasController@getCitas');
+    Route::post('/getlastcita', 'CitasController@getlastcita');
 });
 
 Route::middleware('auth:staffuser')->prefix('staff')->group(function () {
