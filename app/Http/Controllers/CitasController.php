@@ -15,9 +15,10 @@ class CitasController extends Controller
     
     public function getlastcita(Request $request)
     {
-        $citauser = Citas::select('id_cita_medica')
-        ->where('id_paciente',$request->idpaciente)
-        ->where(`cme_estado`, `=`, `abierto`)
+        $citauser = Citas::where('id_paciente', '=',$request->idpaciente)
+        ->where('cme_estado', '=', 'abierto')
+        //->addSelect(Citas::raw('MAX(cme_fech_register)'))
+        ->select('id_cita_medica')
         ->get();
         return $citauser;
     }
@@ -25,7 +26,7 @@ class CitasController extends Controller
     public function saveCitaOnline(Request $request)
     {
         $CitaOnline = new Citas;
-        $CitaOnline->id_paciente = 1000;
+        $CitaOnline->id_paciente = $request->datoscita['idpaciente'];
         $CitaOnline->id_usuario = 33;
         // $CitaOnline->cme_paciente_fullname = "";
         // $CitaOnline->cme_color = "";
