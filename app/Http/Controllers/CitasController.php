@@ -18,7 +18,7 @@ class CitasController extends Controller
 
     public function getlastcita(Request $request)
     {
-        $citauser = Citas::where('id_paciente', '=',$request->idpaciente)
+        $citauser = Citas::where('id_paciente', '=',$request->dataStorage)
         ->where('cme_estado', '=', 'abierto')
         //->addSelect(Citas::raw('MAX(cme_fech_register)'))
         ->select('id_cita_medica')
