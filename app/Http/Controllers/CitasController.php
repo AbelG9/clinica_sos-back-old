@@ -10,6 +10,22 @@ use Illuminate\Support\Facades\DB;
 
 class CitasController extends Controller
 {
+    public function getCitas(Request $request)
+    {
+        $cita = Citas::where('id_usuario',$request->usercita)->select('id_cita_medica as id','cme_fech_inicial as start','cme_fech_final as end','cme_titulo as title')->get();
+        return $cita;
+    }
+
+    public function getlastcita(Request $request)
+    {
+        $citauser = Citas::where('id_paciente', '=',$request->idpaciente)
+        ->where('cme_estado', '=', 'abierto')
+        //->addSelect(Citas::raw('MAX(cme_fech_register)'))
+        ->select('id_cita_medica')
+        ->get();
+        return $citauser;
+    }
+
     public function saveCitaOnline(Request $request)
     {
 
@@ -27,7 +43,7 @@ class CitasController extends Controller
             $CitaOnline->cme_paciente_fullname = $paciente[0]->pac_name." ".$paciente[0]->pac_lastname;
             $CitaOnline->cme_color = "#d94848";
             $CitaOnline->cme_fech_inicial = $request->datoscita['hora_inicial'];
-            // $CitaOnline->cme_fech_final = "";
+            $CitaOnline->cme_fech_final = $request->datoscita['hora_fin'];
             // $CitaOnline->cme_obs="";
             $CitaOnline->cme_titulo = "WEB - ".$request->datoscita['motivo'];
             $CitaOnline->id_especialidad = 1;
