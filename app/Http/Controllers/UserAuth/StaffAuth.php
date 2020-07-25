@@ -36,7 +36,7 @@ class StaffAuth extends Controller
     {
         $user = StaffUser::where("username", $request->credentials['user'])
         ->join('role_user', 'role_user.id', '=', 'staffuser.role_user_id')
-        ->select('staffuser.full_name', 'staffuser.phone', 'staffuser.address', 'staffuser.password', 'role_user.slug as role')
+        ->select('staffuser.*', 'role_user.slug as role')
         ->first();
 
         if(!isset($user)){
