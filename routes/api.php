@@ -29,6 +29,9 @@ Route::middleware('auth:staffuser')->prefix('staff')->group(function () {
     Route::post('/logout', 'UserAuth\StaffAuth@logout');
     Route::post('/getUserTask', 'GiveTaskController@getUserTask');
     Route::post('/addTask', 'GiveTaskController@addTask');
+    Route::post('/getTasks', 'GiveTaskController@getTasks');
+    Route::post('/getTask', 'GiveTaskController@getTask');
+    Route::post('/completeTask', 'GiveTaskController@completeTask');
 });
 
 Route::prefix('citas')->group(function () {

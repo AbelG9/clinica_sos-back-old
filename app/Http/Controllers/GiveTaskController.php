@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\StaffUser;
+use Carbon\Carbon;
 use App\Model\GiveTask;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -36,6 +37,44 @@ class GiveTaskController extends Controller
         return response()->json([
             'success' => true,
             'users' => $user,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function getTasks (Request $request) {
+        $task = GiveTask::where([
+                ['idTrabajador', '=', $request->userId],
+                ['estado', '=', 'PENDIENTE']
+            ])
+            ->select('id', 'asunto', 'created_at', 'fechafin', 'horafin')
+            ->get();
+        return response()->json([
+            'success' => true,
+            'task' => $task,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function getTask (Request $request) {
+        $task = GiveTask::where('id', '=', $request->id)
+            ->select('id', 'asunto', 'detalle', 'created_at', 'fechafin', 'horafin', 'estado', 'fecha_entrega', 'trabajo')
+            ->first();
+        return response()->json([
+            'success' => true,
+            'task' => $task,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function completeTask (Request $request) {
+        $task = GiveTask::find($request->id);
+        $task->trabajo = $request->data['enlace'];
+        $task->comentario = $request->data['comentario'];
+        $task->fecha_entrega = Carbon::now()->format('Y-m-d H:m:s');
+        $task->estado = 'COMPLETADO';
+        $task->save();
+        return response()->json([
+            'success' => true,
             'message' => 'Success'
         ]);
     }
