@@ -27,6 +27,8 @@ Route::prefix('staff')->group(function () {
 Route::middleware('auth:staffuser')->prefix('staff')->group(function () {
     Route::post('/patientList', 'PatientController@getFilterPatient');
     Route::post('/logout', 'UserAuth\StaffAuth@logout');
+    Route::post('/getUserTask', 'GiveTaskController@getUserTask');
+    Route::post('/addTask', 'GiveTaskController@addTask');
 });
 
 Route::prefix('citas')->group(function () {
