@@ -13,7 +13,7 @@ class GiveTaskController extends Controller
         $task = new GiveTask;
         $task->idUser = $request->data['idUser'];
         $task->asunto = $request->data['asunto'];
-        $task->detalle = $request->data['detalle'];
+        $task->detalle = $request->value;
         $task->fechafin = $request->data['fechafin'];
         $task->horafin = $request->data['horafin'];
         $task->idTrabajador = $request->data['idTrabajador'];
