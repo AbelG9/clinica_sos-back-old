@@ -36,7 +36,7 @@ class GiveTaskController extends Controller
 
         return response()->json([
             'success' => true,
-            'users' => $user,
+            'task' => $user,
             'message' => 'Success'
         ]);
     }
@@ -46,6 +46,42 @@ class GiveTaskController extends Controller
                 ['idTrabajador', '=', $request->userId],
                 ['estado', '=', 'PENDIENTE']
             ])
+            ->select('id', 'asunto', 'estado','created_at', 'fechafin', 'horafin')
+            ->get();
+        return response()->json([
+            'success' => true,
+            'task' => $task,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function getFullTasks () {
+        $task = GiveTask::where('estado', '=', 'PENDIENTE')
+        ->select('id', 'asunto', 'estado','created_at', 'fechafin', 'horafin')
+        ->get();
+        return response()->json([
+            'success' => true,
+            'task' => $task,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function getFinishedTasks (Request $request) {
+        $task = GiveTask::where([
+                ['idTrabajador', '=', $request->userId],
+                ['estado', '=', 'COMPLETADO']
+            ])
+            ->select('id', 'asunto', 'created_at', 'fechafin', 'horafin')
+            ->get();
+        return response()->json([
+            'success' => true,
+            'task' => $task,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function getFullFinishedTasks () {
+        $task = GiveTask::where('estado', '=', 'COMPLETADO')
             ->select('id', 'asunto', 'created_at', 'fechafin', 'horafin')
             ->get();
         return response()->json([
