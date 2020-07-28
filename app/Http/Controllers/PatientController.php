@@ -77,6 +77,13 @@ class PatientController extends Controller
         ]);
     }
 
+    public function getdniUserPatient(Request $request){
+        $datapatient = Patient::where('id_paciente', '=', $request->idpacStorage)
+        ->select('pac_document')
+        ->get();
+        return $datapatient;
+    }
+
     public function updateUserPatient(Request $request) {
         $patient = Patient::find($request->datospaciente['id_paciente']);
         $patient->pac_name = $request->datospaciente['pac_name'];
