@@ -17,6 +17,7 @@ Route::prefix('paciente')->group(function () {
     Route::post('/checkPatient', 'UserAuth\PatientAuth@checkUser');
     Route::post('/getdataUserPatient', 'PatientController@getdataUserPatient');
     Route::put('/updateUserPatient', 'PatientController@updateUserPatient');
+    Route::post('/getdniUserPatient', 'PatientController@getdniUserPatient');
 });
 
 Route::prefix('staff')->group(function () {
