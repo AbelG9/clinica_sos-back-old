@@ -12,7 +12,9 @@ class CitasController extends Controller
 {
     public function getCitas(Request $request)
     {
-        $cita = Citas::where('id_usuario',$request->usercita)->select('id_cita_medica as id','cme_fech_inicial as start','cme_fech_final as end','cme_titulo as title')->get();
+        $cita = Citas::where('id_usuario',$request->usercita)
+        ->select('id_cita_medica as id','cme_fech_inicial as start','cme_fech_final as end','cme_titulo as title','cme_color as color')
+        ->get();
         return $cita;
     }
 
@@ -41,7 +43,7 @@ class CitasController extends Controller
             $CitaOnline->id_paciente = $request->datoscita['paciente_id_paciente'];
             $CitaOnline->id_usuario = 19;
             $CitaOnline->cme_paciente_fullname = $paciente[0]->pac_name." ".$paciente[0]->pac_lastname;
-            $CitaOnline->cme_color = "#d94848";
+            $CitaOnline->cme_color = "#7F1769";
             $CitaOnline->cme_fech_inicial = $request->datoscita['hora_inicial'];
             $CitaOnline->cme_fech_final = $request->datoscita['hora_fin'];
             // $CitaOnline->cme_obs="";
