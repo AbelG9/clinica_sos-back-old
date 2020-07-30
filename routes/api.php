@@ -36,6 +36,12 @@ Route::middleware('auth:staffuser')->prefix('staff')->group(function () {
     Route::post('/completeTask', 'GiveTaskController@completeTask');
     Route::post('/getFinishedTasks', 'GiveTaskController@getFinishedTasks');
     Route::post('/getFullFinishedTasks', 'GiveTaskController@getFullFinishedTasks');
+
+    Route::prefix('informes')->group(function () {
+        Route::post('/checkDailyReport', 'ReportController@checkDailyReport');
+        Route::post('/getAllReports', 'ReportController@getAllReports');
+        Route::post('/saveReport', 'ReportController@saveReport');
+    });
 });
 
 Route::prefix('citas')->group(function () {
