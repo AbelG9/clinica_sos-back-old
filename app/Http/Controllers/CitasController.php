@@ -22,8 +22,17 @@ class CitasController extends Controller
     {
         $citauser = Citas::where('id_paciente', '=',$request->dataStorage)
         ->where('cme_estado', '=', 'abierto')
-        //->addSelect(Citas::raw('MAX(cme_fech_register)'))
-        ->select('id_cita_medica')
+        ->orderBy('cme_fech_inicial')
+        ->select('id_cita_medica','cme_fech_inicial','cme_titulo')
+        ->get();
+        return $citauser;
+    }
+
+    public function getCitasByPatient(Request $request)
+    {
+        $citauser = Citas::where('id_paciente', '=',$request->dataStorage)
+        ->orderBy('cme_fech_inicial')
+        ->select('id_cita_medica','cme_fech_inicial','cme_titulo','cme_estado')
         ->get();
         return $citauser;
     }
