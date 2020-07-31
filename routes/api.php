@@ -41,6 +41,8 @@ Route::middleware('auth:staffuser')->prefix('staff')->group(function () {
         Route::post('/checkDailyReport', 'ReportController@checkDailyReport');
         Route::post('/getAllReports', 'ReportController@getAllReports');
         Route::post('/saveReport', 'ReportController@saveReport');
+        Route::post('/getAllUsers', 'ReportController@getAllUsers');
+        Route::post('/getReportByUser', 'ReportController@getReportByUser');
     });
 });
 

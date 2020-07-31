@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Model\Report;
+use App\StaffUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -50,7 +51,6 @@ class ReportController extends Controller
     }
 
     public function saveReport(Request $request) {
-
         $size_in_bytes  = (int) (strlen(rtrim($request->report['file_name'], '=')) * 3 / 4);
         $size_in_kb    = $size_in_bytes  / 1024;
         // $size_in_mb    = $size_in_kb / 1024;
@@ -72,7 +72,6 @@ class ReportController extends Controller
                     $report->save();
 
                     $url = Storage::url("informes/${fileName}");
-                    // $types = $this->mimeTypesAll();
                     return response()->json([
                         'success' => true,
                         'path' => $url,
@@ -97,6 +96,37 @@ class ReportController extends Controller
                 'message' => 'File excced the limit!'
             ]);
         }
-        // return $request->data['file_name'];
+    }
+
+    public function getAllUsers (Request $request) {
+        $user = StaffUser::where("username", '!=',$request->username)
+            ->join('role_user', 'role_user.id', '=', 'staffuser.role_user_id')
+            ->select('staffuser.id', 'staffuser.full_name', 'staffuser.phone', 'role_user.name as role')
+            ->get();
+            return response()->json([
+                'success' => true,
+                'user' => $user,
+                'message' => 'Uploaded successfully'
+            ]);
+    }
+
+    public function getReportByUser (Request $request) {
+        $report = Report::where('staffuser_id', '=', $request->id)
+            ->select('id', 'file_name', 'created_at')
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
+
+        $total = count($report);
+        for ($i=0; $i < $total; $i++) {
+            $pathFile = $report[$i]->file_name;
+            $url = url('/')."/public".Storage::url("informes/".$pathFile);
+            $report[$i]->file_url = $url;
+        }
+
+        return response()->json([
+            'success' => true,
+            'reports' => $report,
+            'message' => 'Success'
+        ]);
     }
 }
