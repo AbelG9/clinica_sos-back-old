@@ -49,6 +49,7 @@ class GiveTaskController extends Controller
                 ['estado', '=', 'PENDIENTE']
             ])
             ->select('id', 'asunto', 'estado','created_at', 'fechafin', 'horafin')
+            ->orderBy('fechafin', 'ASC')
             ->get();
         return response()->json([
             'success' => true,
@@ -60,6 +61,7 @@ class GiveTaskController extends Controller
     public function getFullTasks () {
         $task = GiveTask::where('estado', '=', 'PENDIENTE')
         ->select('id', 'asunto', 'estado','created_at', 'fechafin', 'horafin')
+        ->orderBy('created_at', 'DESC')
         ->get();
         return response()->json([
             'success' => true,
@@ -74,6 +76,7 @@ class GiveTaskController extends Controller
                 ['estado', '=', 'COMPLETADO']
             ])
             ->select('id', 'asunto', 'created_at', 'fechafin', 'horafin')
+            ->orderBy('fecha_entrega', 'ASC')
             ->get();
         return response()->json([
             'success' => true,
@@ -85,6 +88,7 @@ class GiveTaskController extends Controller
     public function getFullFinishedTasks () {
         $task = GiveTask::where('estado', '=', 'COMPLETADO')
             ->select('id', 'asunto', 'created_at', 'fechafin', 'horafin')
+            ->orderBy('fecha_entrega', 'DESC')
             ->get();
         return response()->json([
             'success' => true,
