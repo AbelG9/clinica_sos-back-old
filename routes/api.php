@@ -40,6 +40,7 @@ Route::prefix('citas')->group(function () {
     Route::post('/getCitas', 'CitasController@getCitas');
     Route::post('/getlastcita', 'CitasController@getlastcita');
     Route::post('/getCitasByPatient', 'CitasController@getCitasByPatient');
+    Route::post('/getCantCitasByPatient', 'CitasController@getCantCitasByPatient');
 });
 
 Route::middleware('auth:staffuser')->prefix('staff')->group(function () {

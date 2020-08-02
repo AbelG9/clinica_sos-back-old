@@ -12,7 +12,9 @@ class CitasController extends Controller
 {
     public function getCitas(Request $request)
     {
-        $cita = Citas::where('id_usuario',$request->usercita)->select('id_cita_medica as id','cme_fech_inicial as start','cme_fech_final as end','cme_titulo as title')->get();
+        $cita = Citas::where('id_usuario',$request->usercita)
+        ->select('id_cita_medica as id','cme_fech_inicial as start','cme_fech_final as end','cme_titulo as title','cme_color as color')
+        ->get();
         return $cita;
     }
 
@@ -20,18 +22,26 @@ class CitasController extends Controller
     {
         $citauser = Citas::where('id_paciente', '=',$request->dataStorage)
         ->where('cme_estado', '=', 'abierto')
-        ->orderBy('cme_fech_inicial')
+        ->orderBy('cme_fech_inicial', 'DESC') 
         ->select('id_cita_medica','cme_fech_inicial','cme_titulo')
         ->get();
         return $citauser;
     }
 
+    public function getCantCitasByPatient(Request $request)
+    {
+        $cantcitasuser = Citas::where('id_paciente', '=',$request->dataStorage)
+        ->count();
+        return $cantcitasuser;
+    } 
+
     public function getCitasByPatient(Request $request)
     {
         $citauser = Citas::where('id_paciente', '=',$request->dataStorage)
-        ->orderBy('cme_fech_inicial')
+        ->orderBy('cme_fech_inicial', 'DESC')
         ->select('id_cita_medica','cme_fech_inicial','cme_titulo','cme_estado')
-        ->get();
+        
+        ->paginate($request->pagedata['pageSize']);
         return $citauser;
     }
 
